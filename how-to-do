@@ -1,0 +1,62 @@
+    • Instal requried Pakages - yum install httpd -y; yum install vim -y ; yum install mariadb-server mariadb -y ; yum install php -y ; yum install php-mysqlnd -y
+    • Enabling and Restart httpd and mariadb
+          systemctl enable --now mariadb
+          systemctl enable --now httpd
+    • Harden MariaDB database server security – mysql_secure_installation
+    • Create database in mysql,table,data - 
+ CREATE DATABASE dynaweb
+      
+       USE database_name;
+      
+CREATE TABLE [dbo].[Users] (
+[UserId] [int] NOT NULL,
+[UserName] [varchar] (15) NOT NULL ,
+[Pwd] [varchar] (25) NOT NULL ,
+[userRole] [varchar] (25) NOT NULL ,
+) ON [PRIMARY]
+
+	INSERT INTO table_name(column1,column2,column3, ...)
+	VALUES (value1,value2,value3, ...);
+
+    • Create data base connection with php file.php ->
+
+      <?php
+      function OpenCon()
+       {
+      $dbhost = "localhost";
+      $dbuser = "root";
+      $dbpass = "paswd";
+       $db = "dbname";
+      $conn = new mysqli($dbhost, $dbuser, $dbpass,$db) or die("Connect failed: %s\n". $conn -> error);
+      
+      return $conn;
+      }
+      
+      function CloseCon($conn)
+      {
+      $conn -> close();
+      }
+      ?>
+
+    • creating dynamic php webpage with database attached ->
+
+      <!DOCTYPE html>
+      <html>
+      <body>
+      
+      <?php
+      // Set the new timezone
+      date_default_timezone_set('Asia/Kolkata');
+      $date = date('d-m-y h:i:s');
+      echo $date;
+      
+      include 'db_connection.php';
+      $conn = OpenCon();
+      echo "Connected Successfully";
+      CloseCon($conn);
+      ?>
+      
+      </body>
+      </html>
+
+
